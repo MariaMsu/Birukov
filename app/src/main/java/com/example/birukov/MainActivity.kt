@@ -17,7 +17,6 @@ class Birukov(food: String) {
     }
 }
 
-
 class MainActivity : AppCompatActivity() {
     lateinit var Andrew : Birukov
 
