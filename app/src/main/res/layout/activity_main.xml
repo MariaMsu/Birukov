@@ -22,6 +22,8 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/black"
+        android:textColor="@android:color/white"
         android:layout_marginStart="16dp"
         android:onClick="sendFood"
         android:text="Покормить"
