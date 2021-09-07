@@ -43,7 +43,7 @@
         android:id="@+id/imageViewFace"
         android:layout_width="416dp"
         android:layout_height="270dp"
-        app:srcCompat="@drawable/bir_test_0"
+        app:srcCompat="@drawable/bir_face_0"
         tools:layout_editor_absoluteX="-3dp"
         tools:layout_editor_absoluteY="298dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
