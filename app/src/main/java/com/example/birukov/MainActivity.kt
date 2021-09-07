@@ -1,5 +1,6 @@
 package com.example.birukov
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,8 +13,12 @@ enum class Taste {
     DELICIOUS, DISGUSTING, HUNGRY
 }
 
-class Birukov(private val nFaces: Int) {
+class Birukov(private val nFaces: Int, private val nSounds: Int) {
     var faceState: Int = (nFaces - 1) / 2
+        private set(value) {
+            field = value
+        }
+    var soundState = 0
         private set(value) {
             field = value
         }
@@ -40,9 +45,13 @@ class Birukov(private val nFaces: Int) {
         }
 
         faceState = when (taste) {
-            Taste.HUNGRY -> maxOf(0, faceState - 1)
+            Taste.HUNGRY, Taste.DISGUSTING  -> maxOf(0, faceState - 1)
             Taste.DELICIOUS -> minOf(nFaces - 1, faceState + 1)
-            Taste.DISGUSTING -> maxOf(0, faceState - 1)
+        }
+
+        soundState = when (taste) {
+            Taste.HUNGRY, Taste.DISGUSTING  -> maxOf(0, soundState - 1)
+            Taste.DELICIOUS -> minOf(nSounds - 1, soundState + 1)
         }
 
         // todo remove this string
@@ -59,10 +68,15 @@ class MainActivity : AppCompatActivity() {
         R.drawable.bir_face_3,
     )
 
+    private val sounds = arrayOf(
+        R.raw.huita,
+        R.raw.est,
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Andrew = Birukov(nFaces = faceImgs.size)
+        Andrew = Birukov(nFaces = faceImgs.size, nSounds = sounds.size)
     }
 
     private fun updateTextAnswer() {
@@ -76,11 +90,18 @@ class MainActivity : AppCompatActivity() {
         editImg.setImageResource(faceImgs[Andrew.faceState])
     }
 
+    private fun playSound(){
+        val mMediaPlayer = MediaPlayer.create(this, sounds[Andrew.soundState])
+        mMediaPlayer!!.isLooping = false
+        mMediaPlayer.start()
+    }
+
     fun sendFood(view: View) {
         val editText = findViewById<EditText>(R.id.editTextTextFood)
         Andrew.updateEatenFood(editText.text.toString())
 
         updateTextAnswer()
         updatePicture()
+        playSound()
     }
 }
