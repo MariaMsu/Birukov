@@ -13,8 +13,14 @@ enum class Taste {
 }
 
 class Birukov(private val nFaces: Int) {
-    var faceState : Int = nFaces / 2
+    var faceState: Int = (nFaces - 1) / 2
+        private set(value) {
+            field = value
+        }
     var textAnswer = ""
+        private set(value) {
+            field = value
+        }
 
     private fun checkTaste(food: String): Taste {
         return when (food.lowercase()) {
@@ -33,11 +39,14 @@ class Birukov(private val nFaces: Int) {
             Taste.DISGUSTING -> "Nu takoe :("
         }
 
-        faceState = when (taste){
-            Taste.HUNGRY -> maxOf(0, faceState-1)
-            Taste.DELICIOUS -> minOf(nFaces-1, faceState+1)
-            Taste.DISGUSTING -> maxOf(0, faceState-1)
+        faceState = when (taste) {
+            Taste.HUNGRY -> maxOf(0, faceState - 1)
+            Taste.DELICIOUS -> minOf(nFaces - 1, faceState + 1)
+            Taste.DISGUSTING -> maxOf(0, faceState - 1)
         }
+
+        // todo remove this string
+        println("    textAnswer: $textAnswer, faceState: $faceState")
     }
 }
 
